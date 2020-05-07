@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Home } from './Home';
-import { Button, Header, Image, Modal, Form, Input, Segment, Grid, Icon} from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Form, Input, Segment, Grid, Icon, Label } from 'semantic-ui-react'
 
 class EditFormModal extends Component {
     constructor(props) {
@@ -75,9 +75,16 @@ class EditFormModal extends Component {
 
 
     render() {
-        return this.state.showChart === true ? <Home isUserRegistered={1} / > :(
-            <div>
-            <Modal open={this.props.modalOpen} size='tiny' centered={true} >
+        return /*this.state.showChart === true ? <Home isUserRegistered={1} / > :*/(
+
+            <Modal open={this.props.modalOpen} basic  style={{
+                width: 500,
+                height: 550,
+                marginLeft: 450,
+                marginTop: 50
+            }}
+                
+                >
                     <Modal.Header>
                         {this.state.imgsrc !== null ?
                         (
@@ -87,15 +94,21 @@ class EditFormModal extends Component {
                                 </div>) :
                             <div>
                                 <img class="ui avatar circular mini image" src={this.props.image} />
-                                <span>{this.props.name}</span>
+                            <span>
+                                {this.props.name}
+                                <Button style={{ marginLeft : 160 }} color='green' onClick={this.props.handleClose} inverted>
+                                        Close
+                        </Button>
+
+                            </span>
                             </div>
                         }
                         
                     </Modal.Header>
                 <Modal.Content scrolling>
                         <Form onSubmit={this.handleSubmit}  >
-                            <Form.Field fluid>
-                                <label>Employee Id</label>
+                        {/*<Form.Field fluid>
+                               <label>Employee Id</label>
                                 <Input disabled type='id' name='EmployeeId' placeholder='Employee Id' defaultValue={this.state.EmployeeId} onChange={this.handleChange} />
                             </Form.Field>
                             <Form.Field fluid>
@@ -110,10 +123,11 @@ class EditFormModal extends Component {
                             <Form.Field fluid>
                                 <label>Email</label>
                                 <Input disabled type='email' name='Email' placeholder='example@gmail.com' defaultValue={this.state.Email} onChange={this.handleChange} />
-                            </Form.Field>
-
-                            <Form.Field fluid required label='Designation' name='Designation' focus defaultValue={this.state.Designation} control='select' onChange={this.handleChange} >
-                                <option value={this.state.Designation}>{this.state.Designation}</option>
+                            </Form.Field>*/}
+                        <Label color={'green'}>Designation</Label>
+                        <Form.Field fluid required color={'blue'} name='Designation' focus defaultValue={this.state.Designation} control='select' onChange={this.handleChange} >
+                            
+                            <option value={this.state.Designation}>{this.state.Designation}</option>
                                 <option value='VP'>VP</option>
                                 <option value='AVP'>AVP</option>
                                 <option value='Technical Architect'>Technical Architect</option>
@@ -125,15 +139,16 @@ class EditFormModal extends Component {
                                 <option value='Intern'>Intern</option>
                             </Form.Field>
 
-
-                            <Form.Field fluid required label='Department' name='DepartmentName' focus defaultValue={this.state.DepartmentName} control='select' onChange={this.handleChange}>
+                        <Label color={'green'}>Department</Label>
+                            <Form.Field fluid required  name='DepartmentName' focus defaultValue={this.state.DepartmentName} control='select' onChange={this.handleChange}>
                                 <option value={this.state.DepartmentName}>{this.state.DepartmentName}</option>
                                 <option value='IT'>IT</option>
                                 <option value='Accounts'>Accounts</option>
-                            </Form.Field>
-
-                            <Form.Field fluid label='Reporting Manager' name='ReportingManagerUserName' focus control='select' required onChange={this.handleChange}>
-                                <option value=''>Select Reporting Manager</option>
+                        </Form.Field>
+                        <Label color={'green'}>Reporting Manager</Label>
+                        <Form.Field fluid name='ReportingManagerUserName' focus control='select' required onChange={this.handleChange}>
+                            
+                            <option value=''>Select Reporting Manager</option>
                                 {this.state.RmList.map(rm =>
 
                                     <option key={rm.employeeId} value={rm.employeeUsername}>{rm.displayName}({rm.employeeUsername})</option>
@@ -142,12 +157,12 @@ class EditFormModal extends Component {
                             </Form.Field>
 
                             <Form.Field fluid>
-                                <label>Profile Picture</label>
+                            <Label color={'green'}>Profile Picture</Label>
                                 <Input type='file' name='Profilepic' icon={<Icon name='user' inverted circular link />} focus onChange={this.handleImage} />
                             </Form.Field>
 
-
-                            <Form.Field fluid required label='Office' control='select' focus name='Office' defaultValue={this.state.Office} onChange={this.handleChange}  >
+                        <Label color={'green'}>Office</Label>
+                            <Form.Field fluid required  control='select' focus name='Office' defaultValue={this.state.Office} onChange={this.handleChange}  >
                                 <option value={this.state.Office}> {this.state.Office}</option>
                                 <option value='Backoffice Center-1'>Backoffice Center-1</option>
                                 <option value='Backoffice Center-2'>Backoffice Center-2</option>
@@ -159,22 +174,21 @@ class EditFormModal extends Component {
                             <Grid>
                                 <Grid.Column textAlign="center">
                                     <Form.Field>
-                                        <Button fluid type="Update" color='blue'>Add Me</Button>
+                                        <Button fluid type="Update" color='blue'>Update</Button>
                                     </Form.Field>
                                 </Grid.Column>
                             </Grid>
                         </Form>
                 </Modal.Content>
-                <Modal.Actions>
+                {/*<Modal.Actions>
                     <div align="center">
                         <Button color='green' onClick={this.props.handleClose} inverted>
                             Close
                         </Button>
                     </div>
-                </Modal.Actions>
+                </Modal.Actions>*/}
 
                 </Modal>
-                </div>
         );
     }
     async setAdData() {
@@ -195,7 +209,7 @@ class EditFormModal extends Component {
             Region: data[0].region,
             RmList: RmData
         });
-        console.log(this.state);
+        
     }
 
 }

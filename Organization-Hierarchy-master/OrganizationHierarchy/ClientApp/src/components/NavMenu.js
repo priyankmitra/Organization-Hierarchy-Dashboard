@@ -24,11 +24,14 @@ export class NavMenu extends Component {
           image : null,
           DepartmentName: "",
           Designation: "",
-          Office: ""
+          Office: "",
+          popupOpen: false
       };
       this.handleSubmit = this.handleSubmit.bind(this);
   }
-
+   handlePopupOpen = () => {
+        this.setState({ popupOpen: true });
+    }
   toggleNavbar () {
     this.setState({
       collapsed: !this.state.collapsed
@@ -37,6 +40,7 @@ export class NavMenu extends Component {
 
     handleSubmit() {
         this.setState({
+            popupOpen:false,
             showEditForm: true
         })
     }
@@ -49,24 +53,14 @@ export class NavMenu extends Component {
         if (this.props.isUserRegistered == 1) {
             return (
                 <header>
-                    <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
+                    <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3 " light>
                         <Container>
                             <NavbarBrand tag={Link} to="/">Organization Hierarchy</NavbarBrand>
                             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
                             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
                                 <ul className="navbar-nav flex-grow">
-                                    <li><Button className="ui black basic button" onClick={this.handleSubmit}  > Sync and Edit </Button></li>
-                                    <EditFormModal
-                                        modalOpen={this.state.showEditForm}
-                                        name={this.state.DisplayName}
-                                        image={this.state.image}
-                                        handleClose={
-                                            () => {
-                                                this.setState({ showEditForm: false })
-                                            }
-                                        }
-
-                                    />
+                                    
+                                    
                                     <li><Button className="ui black basic button"   >{this.props.username}</Button></li>
 
                                     <Popup
@@ -82,18 +76,16 @@ export class NavMenu extends Component {
                                                     <Card.Meta>
                                                         {this.state.Designation} , {this.state.DepartmentName}
                                                     </Card.Meta>
-                                                    {/*<Card.Description>
-                                                        <h3>Reporting Manager</h3><br />
-                                                        <h4>{this.state.ReportingManagerUserName}</h4>
-                                                    </Card.Description>*/}
+                                                    <Card.Description>
+                                                        <h7><i class="envelope open icon"></i>{this.state.Email}</h7>
+                                                        <br />
+                                                        <h7><i class="phone  icon"></i>1526</h7>
+                                                        <br />
+                                                        <h7><i class="building  icon"></i>{this.state.Office}</h7>
+                                                    </Card.Description>
                                                 </Card.Content>
-                                                <Card.Content extra>
-                                                    <h7><i class="envelope open icon"></i>{this.state.Email}</h7>
-                                                    <br />
-                                                    <h7><i class="phone  icon"></i>1526</h7>
-                                                    <br />
-                                                    <h7><i class="building  icon"></i>{this.state.Office}</h7>
-                                                    
+                                                <Card.Content extra textAlign="center">
+                                                    <Button className="ui black basic button" onClick={this.handleSubmit}  > Sync and Edit </Button>
                                                     
                                                 </Card.Content>
                                             </Card>
@@ -101,8 +93,22 @@ export class NavMenu extends Component {
                                         }
                                         on='click'
                                         pinned
+                                        basic
                                         position='bottom right'
+                                        eventsEnabled={true}
                                         trigger={<img class="ui mini circular image" src={this.state.image} />}
+                                        open={this.state.popupOpen}
+                                        onOpen={this.handlePopupOpen}
+                                    />
+                                    <EditFormModal
+                                        modalOpen={this.state.showEditForm}
+                                        name={this.state.DisplayName}
+                                        image={this.state.image}
+                                        handleClose={
+                                            () => {
+                                                this.setState({ showEditForm: false })
+                                            }
+                                        }
                                     />
                                 </ul>
                             </Collapse>

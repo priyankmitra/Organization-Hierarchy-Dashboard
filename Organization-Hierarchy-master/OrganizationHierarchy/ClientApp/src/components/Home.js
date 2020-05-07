@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { Button, Header, Image, Modal, Icon, Card } from 'semantic-ui-react';
+import { Button, Header, Image, Modal, Icon, Card , Segment} from 'semantic-ui-react';
 import "./Home.css";
 
 import { AddButton } from './AddButton';
 import { EditForm } from './EditForm';
 import PostCardModal from './PostCardModal';
+//import DisplayChart from './DisplayChart';
 
 
 
@@ -15,6 +16,9 @@ require('highcharts/modules/organization')(Highcharts);
 require('highcharts/modules/exporting')(Highcharts);
 require('highcharts/modules/accessibility')(Highcharts);
 
+let searchedOptions = {
+
+}
 const constOptions = {
 
     chart: {
@@ -57,28 +61,6 @@ const constOptions = {
         keys: ['from', 'to'],
         data: [["NAV", "Sudha Gupta"],
             ["NAV", "Nav Gupta"]],
-        /*levels: [{
-            level: 0,
-            color: 'silver',
-            dataLabels: {
-                color: 'black'
-            },
-            height: 25
-        }, {
-            level: 1,
-            color: 'silver',
-            dataLabels: {
-                color: 'black'
-            },
-            height: 25
-        }, {
-            level: 2,
-            color: '#980103'
-
-        }, {
-            level: 4,
-            color: '#359154'
-        }],*/
         nodes: [{ "id": "NAV", "name": "NAV" }, { "id": "Sudha Gupta", "name": "Sudha Gupta","title":"CTO" }, {"id":"Nav Gupta","name":"Nav Gupta","title":"CEO"}],
         colorByPoint: false,
         color: '#007ad0',
@@ -101,6 +83,8 @@ const constOptions = {
 
 }
 
+let editSearchOptions = false;
+
 function Popup(props) {        
     this.setState({
         showPopup: true,
@@ -115,7 +99,9 @@ function Popup(props) {
 }
 
 function DisplayChart(props) {
+    console.log(props);
     return (
+
         <figure className="highcharts-figure">
             <div id="container">
                 <HighchartsReact highcharts={Highcharts} options={props.stateOptions} />
@@ -130,49 +116,161 @@ export class Home extends Component {
         super(props);
         this.state = {
             relation: [], userNodes: [], stateOptions: {}, isUserRgistered: this.props.isUserRegistered,showPopup: false,
-            employeeId: "", image: "", name: "", email: "", designation: "", department: "", office: "",
+            employeeId: "", image: "", name: "", email: "", designation: "", department: "", office: "", 
+            loading : true
             
         }
-        console.log("constructor called");
         Popup = Popup.bind(this);
+        this.setSearchOptions = this.setSearchOptions.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.setEditSearchOptionsTrue = this.setEditSearchOptionsTrue.bind(this);
     }
 
     componentDidMount() {
         this.populateRegisteredUserData();
     }
+    
+    setSearchOptions() {
+        var i;
+        const query = this.props.searchedQuery;
+        /*console.log("query change to "+query);*/
+        for (i = 0; i < (searchedOptions.series[0]).nodes.length; i++) {
+            if (((searchedOptions.series[0].nodes[i]).name).toLowerCase().includes(query)) {
+                (searchedOptions.series[0].nodes[i]).color = "yellow";
+                console.log("query found successfull");
+            }
+            else if ((searchedOptions.series[0].nodes[i]).employeeUsername === this.props.username) {
+                (searchedOptions.series[0].nodes[i]).color = "green";
+                
+            }
+            else if ((searchedOptions.series[0].nodes[i]).userRegisteredOrNot === 0) {
+                (searchedOptions.series[0].nodes[i]).color = "red";
+            }
+            else {
+                (searchedOptions.series[0].nodes[i]).color = "#003399";
+            }
+        }
+       //this.setEditSearchOptionsTrue();
+    }
 
-    
-    
-    
-   
+    handleClose() {
+        this.setState({ showPopup: false })
+    }
+
+    setEditSearchOptionsTrue() {
+        editSearchOptions=true;
+    }
+    setEditSearchOptionsFalse() {
+        editSearchOptions=false;
+    }
+
+
     render() {
-        console.log(this.props);
+      //  this.setEditSearchOptionsFalse();
         console.log("Being rendered");
-        let color = (this.props.searchedQuery === "") ? "blue" : "black";
-        return (
-            <div>
-                
+        console.log(this.props);
+        
 
-                
-                <DisplayChart relationData={this.state.relation} nodeData={this.state.userNodes} stateOptions={this.state.stateOptions} nodeColor={color} />
-                <PostCardModal
-                    modalOpen={this.state.showPopup}
-                    handleClose={
-                        () => {
-                            this.setState({ showPopup: false })
-                        }
-                    }
-                    image={this.state.image}
-                    name={this.state.name}
-                    email={this.state.email}
-                    designation={this.state.designation}
-                    department={this.state.department}
-                    office={this.state.office}
-                    reportingManager={this.state.reportingManager}
-                    image={this.state.image}
-                />
-            </div>
+        const query = this.props.searchedQuery;
+        
+
+       /* if (this.state.loading === true) {
+            return (
+                <div className="ui active inverted dimmer">
+                    <div className="ui text loader">Loading</div>
+                </div>
             );
+        }
+        else {
+            console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+            console.log();
+            return (
+                <div>
+                    Hello
+                </div>
+            );
+
+        }*/
+        
+
+
+        if (this.state.loading === true) {
+            return (
+                <div className="ui active inverted dimmer">
+                    <div className="ui text loader">Loading</div>
+                </div>
+            );
+        }
+        else
+        {
+            if (query !== "") {
+
+               
+                this.setSearchOptions();
+                //if (editSearchOptions === true) {
+                    return (
+                        <div>
+                            {/*                            {console.log("Inside query ")}
+                            {
+                                console.log((searchedOptions.series[0]).nodes)
+                            }*/}
+                            <DisplayChart  stateOptions={searchedOptions} />
+
+                            <PostCardModal
+                                modalOpen={this.state.showPopup}
+                                handleClose={
+                                    () => {
+                                        this.setState({ showPopup: false })
+                                    }
+                                }
+                                image={this.state.image}
+                                name={this.state.name}
+                                email={this.state.email}
+                                designation={this.state.designation}
+                                department={this.state.department}
+                                office={this.state.office}
+                                reportingManager={this.state.reportingManager}
+                                image={this.state.image}
+                            />
+                        </div>
+                    );
+              //  }
+                /*else {
+                    return (
+                        <div className="ui active inverted dimmer">
+                            <div className="ui text loader">Loading</div>
+                        </div>
+                    );
+                }*/
+                
+            }
+            else {
+                console.log(this.state.stateOptions);
+                return (
+                    <div>
+                        <DisplayChart stateOptions={this.state.stateOptions} />
+                       
+                        <PostCardModal
+                            modalOpen={this.state.showPopup}
+                            handleClose={
+                                () => {
+                                    this.setState({ showPopup: false })
+                                }
+                            }
+                            image={this.state.image}
+                            name={this.state.name}
+                            email={this.state.email}
+                            designation={this.state.designation}
+                            department={this.state.department}
+                            office={this.state.office}
+                            reportingManager={this.state.reportingManager}
+                            image={this.state.image}
+                        />
+                    </div>
+                );
+            }
+        }
+           
         
     }
 
@@ -184,7 +282,7 @@ export class Home extends Component {
 
         const responseForregisteredUserInformation = await fetch('api/registeredUserInformation');
         const data = await responseForregisteredUserInformation.json();
-        
+
 
         var i;
         for (i = 0; i < data.length; i++) {
@@ -209,32 +307,43 @@ export class Home extends Component {
                 singleUser.office = data[i].office;
                 singleUser.image = data[i].profilepicPath;
                 singleUser.reportingManager = data[i].reportingManagerUsername;
+                singleUser.employeeUsername = data[i].employeeUsername;
+                singleUser.userRegisteredOrNot = data[i].userRegisteredOrNot;
             }
             else {
                 singleUser.id = data[i].employeeUsername;
                 singleUser.name = data[i].employeeUsername;
+                singleUser.employeeUsername = data[i].employeeUsername;
+                singleUser.userRegisteredOrNot = data[i].userRegisteredOrNot;
                 singleUser.description = "User is not Registered!";
+                
             }
+
             if (data[i].employeeUsername === username) {
                 singleUser.color = "green";
             }
-            else if (data[i].userRegisteredOrNot === 0) {
-                singleUser.color = "red";
+            else if (data[i].userRegisteredOrNot === 1) {
+                singleUser.color = "#003399";
             }
             else {
-                singleUser.color = "silver";
+                singleUser.color = "red";
             }
             allUsers.push(singleUser);
         }
-
+        
         constOptions.series[0].data = relationTable;
         constOptions.series[0].nodes = allUsers;
         var nav = {};
         nav.id = "NAV";
+        nav.name = "NAV"
         nav.color = "silver";
+        nav.employeeUsername = "NAV";
+        nav.userRegisteredOrNot = 2;
         constOptions.series[0].nodes.push(nav);
 
-        this.setState({ relation: relationTable, userNodes: allUsers, stateOptions: constOptions});
+        searchedOptions = JSON.parse(JSON.stringify(constOptions));
+
+        this.setState({ relation: relationTable, userNodes: allUsers, stateOptions: constOptions, loading:false});
         
     }
 }

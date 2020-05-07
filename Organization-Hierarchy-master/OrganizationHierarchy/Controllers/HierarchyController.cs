@@ -19,6 +19,7 @@ namespace OrganizationHierarchy.Controllers
                 return context.RegisteredUsers.ToList();
             }
         }
+
         OrganizationHierarchyContext context = new OrganizationHierarchyContext();
 
 
@@ -68,7 +69,7 @@ namespace OrganizationHierarchy.Controllers
 
             char[] separator = { '\\' };
             username.Add((machineName.Split(separator, 2, StringSplitOptions.None))[1]);
-            //username.Add("default");
+            //username.Add("tusharb");
             return username;
         }
 

@@ -179,9 +179,6 @@ export class RegistrationForm extends Component {
                                         
                                     }
 
-
-                                
-                                
                            
                         </div>
                     </div>
