@@ -193,6 +193,8 @@ export class RegistrationForm extends Component {
 
         const Rmresponse = await fetch('api/rm_data');
         const RmData = await Rmresponse.json();
+        console.log(RmData);
+        //RmData.append("NAV");
 
         this.setState({
 

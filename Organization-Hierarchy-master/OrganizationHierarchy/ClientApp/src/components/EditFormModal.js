@@ -26,6 +26,7 @@ class EditFormModal extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleImage = this.handleImage.bind(this);
+        this.closeForm = this.closeForm.bind(this);
     }
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
@@ -69,9 +70,13 @@ class EditFormModal extends Component {
                 showChart: true
             });
         }).catch((error) => console.log(error));
+        this.closeForm();
     }
 
-
+    closeForm() {
+        /*this.props.populateDataAfterUpdate();*/
+        this.props.handleClose();
+    }
 
 
     render() {
@@ -84,7 +89,8 @@ class EditFormModal extends Component {
                 marginTop: 50
             }}
                 
-                >
+            >
+                <Button style={{ marginLeft: 220 }} icon onClick={this.props.handleClose} ><Icon name='close' /></Button>
                     <Modal.Header>
                         {this.state.imgsrc !== null ?
                         (
@@ -96,10 +102,10 @@ class EditFormModal extends Component {
                                 <img class="ui avatar circular mini image" src={this.props.image} />
                             <span>
                                 {this.props.name}
-                                <Button style={{ marginLeft : 160 }} color='green' onClick={this.props.handleClose} inverted>
+                                {/*<Button style={{ marginLeft : 160 }} color='green' onClick={this.props.handleClose} inverted>
                                         Close
-                        </Button>
-
+                        </Button>*/}
+                                
                             </span>
                             </div>
                         }
@@ -174,7 +180,7 @@ class EditFormModal extends Component {
                             <Grid>
                                 <Grid.Column textAlign="center">
                                     <Form.Field>
-                                        <Button fluid type="Update" color='blue'>Update</Button>
+                                    <Button  inverted type="Update" color='green'>Update</Button>
                                     </Form.Field>
                                 </Grid.Column>
                             </Grid>

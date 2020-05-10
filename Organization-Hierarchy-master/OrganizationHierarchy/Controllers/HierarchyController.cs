@@ -69,7 +69,7 @@ namespace OrganizationHierarchy.Controllers
 
             char[] separator = { '\\' };
             username.Add((machineName.Split(separator, 2, StringSplitOptions.None))[1]);
-            //username.Add("tusharb");
+           // username.Add("navg");
             return username;
         }
 

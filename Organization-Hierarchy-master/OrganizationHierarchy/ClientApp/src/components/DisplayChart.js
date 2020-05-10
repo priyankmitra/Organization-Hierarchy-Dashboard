@@ -6,28 +6,24 @@ require('highcharts/modules/sankey')(Highcharts);
 require('highcharts/modules/organization')(Highcharts);
 require('highcharts/modules/exporting')(Highcharts);
 require('highcharts/modules/accessibility')(Highcharts);
+
 export default class DisplayChart extends Component {
     
 
     constructor(props) {
         super(props);
         this.state = {
-            stateOptions: this.props.stateOptions
+            stateOptions: props.stateOptions
         }
     }
 
-   /* componentWillReceiveProps( someProps ) {
-        console.log(someProps);
-        this.setState({ stateOptions : someProps  })
-    }*/
-
     render() {
-        console.log(this.state.stateOptions);
         return (
-            <div>
+            
+            <div style={{ backgroundColor: 'grey' }}>
                 <figure className="highcharts-figure">
                     <div id="container">
-                        <HighchartsReact highcharts={Highcharts} options={this.state.stateOptions} />
+                        <HighchartsReact highcharts={Highcharts} options={this.props.stateOptions} updateArgs={[true]} />
                     </div>
                 </figure>
             </div>

@@ -4,7 +4,7 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { RegistrationForm } from './components/RegistrationForm';
 import EditFormModal from './components/EditFormModal';
-import { Input, Menu, Dropdown, Search, Button, Image, Modal, Card, Popup } from 'semantic-ui-react'
+import { Input, Menu, Dropdown, Search, Button, Image, Modal, Card, Popup, Icon} from 'semantic-ui-react'
 import logo from './components/logo.png';
 import './custom.css'
 
@@ -26,10 +26,19 @@ export default class App extends Component {
             DepartmentName: "",
             Designation: "",
             Office: "",
-            popupOpen: false
+            popupOpen: false,
+            chartType: "IT",
+            updateCart:1
         }
         this.searchChange = this.searchChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChart = this.handleChart.bind(this);
+        this.closePopup = this.closePopup.bind(this);
+    }
+
+    handleChart(event, { value } ) {
+        
+        this.setState({chartType : value})
     }
 
     handlePopupOpen = () => {
@@ -40,6 +49,12 @@ export default class App extends Component {
         this.setState({
             popupOpen: false,
             showEditForm: true
+        })
+    }
+
+    closePopup() {
+        this.setState({
+            popupOpen: false
         })
     }
 
@@ -82,14 +97,15 @@ export default class App extends Component {
                         <Menu.Item position='middle'>
                             <Dropdown item text='Chart'>
                                 <Dropdown.Menu>
-                                    <Dropdown.Item>Default</Dropdown.Item>
-                                    <Dropdown.Item>IT</Dropdown.Item>
-                                    <Dropdown.Item>Accounts</Dropdown.Item>
+                                    <Dropdown.Item value= 'Default' onClick={this.handleChart}>Default</Dropdown.Item>
+                                    <Dropdown.Item value='IT' onClick={this.handleChart}>IT</Dropdown.Item>
+                                    <Dropdown.Item value='Accounts' onClick={this.handleChart}>Accounts</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Menu.Item>
                         <Menu.Item position='middle'>
                             <Search
+                                showNoResults= {false}
                                 onSearchChange={this.searchChange}
                                 value={this.state.searchedValue}
                             />
@@ -105,7 +121,9 @@ export default class App extends Component {
                                                 size='tiny'
                                                 src={this.state.image}
                                             />
-                                            <Card.Header>{this.state.DisplayName}</Card.Header>
+                                            <Card.Header>
+                                                {this.state.DisplayName}
+                                            </Card.Header>
                                             <Card.Meta>
                                                 {this.state.Designation} , {this.state.DepartmentName}
                                             </Card.Meta>
@@ -119,7 +137,7 @@ export default class App extends Component {
                                         </Card.Content>
                                         <Card.Content extra textAlign="center">
                                             <Button className="ui black basic button" onClick={this.handleSubmit}  > Sync and Edit </Button>
-
+                                            <Button icon onClick={this.closePopup} ><Icon name='close' /></Button>
                                         </Card.Content>
                                     </Card>
 
@@ -139,7 +157,10 @@ export default class App extends Component {
                                 image={this.state.image}
                                 handleClose={
                                     () => {
-                                        this.setState({ showEditForm: false })
+                                        this.setState({
+                                            showEditForm: false,
+                                            updateChart: ((this.state.updateCart+1)%10)
+                                        })
                                     }
                                 }
                             />
@@ -149,11 +170,10 @@ export default class App extends Component {
                     
 
 
-                    <Home username={this.state.username} isUserRegistered={this.state.isUserRegistered} searchedQuery={this.state.searchedValue} username={this.state.username}/>
+                    <Home username={this.state.username} isUserRegistered={this.state.isUserRegistered} searchedQuery={this.state.searchedValue} username={this.state.username} chartType={this.state.chartType} updateChart={this.state.updateChart} />
                 </div>
             );
         }
-      
     }
     async populateUsernaameData() {
         const response = await fetch('api/username');

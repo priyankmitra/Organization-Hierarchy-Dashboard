@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Home } from './Home';
-import { Button, Header, Image, Modal , Grid, Container, Segment, Card} from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Grid, Container, Segment, Card, Icon} from 'semantic-ui-react'
 
  class PostCardModal extends Component{
     constructor(props) {
@@ -21,25 +21,9 @@ import { Button, Header, Image, Modal , Grid, Container, Segment, Card} from 'se
 
             }}
                 dimmer={false}
-                closeIcon={{ style: { top: '1.0535rem', right: '1rem' }, color: 'black', name: 'close' }}
             >
-                {/*<Header as='h2'>
-                    <Image circular src={this.props.image} /> {this.props.name}
-                </Header>*/}
-
                 <Modal.Content>
-
-                    {/* <Modal.Description>
-                        <Segment.Group horizontal>
-                            <Segment><Segment.Group raised>
-                                    <Segment>{this.props.designation}</Segment>
-                                    <Segment>{this.props.department}</Segment>
-                                    <Segment>{this.props.email}</Segment>
-                                    <Segment>{this.props.office}</Segment>
-                            </Segment.Group></Segment>
-                        </Segment.Group>
-                        </Modal.Description>*/}
-                    <Card>
+                    <Card style={{ marginLeft : 8 }}>
                         <Card.Content>
                             <Image
                                 floated='left'
@@ -61,11 +45,9 @@ import { Button, Header, Image, Modal , Grid, Container, Segment, Card} from 'se
                     </Card>
                 </Modal.Content>
                 
-                <Modal.Actions>
+                 <Modal.Actions>
                     <div align="center">
-                        <Button color='green' onClick={this.props.handleClose} inverted>
-                                Close
-                        </Button>
+                        <Button icon onClick={this.props.handleClose} ><Icon name='close' /></Button>
                     </div>
                 </Modal.Actions>
                    
