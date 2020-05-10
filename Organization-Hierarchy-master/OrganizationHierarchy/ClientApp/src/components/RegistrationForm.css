@@ -1,0 +1,12 @@
+﻿.zero {
+    background: #30E8BF; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #FF8235, #30E8BF); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, rgba(169, 84, 31, 0.52), #30E8BF);
+    overflow: hidden;
+}
+
+.zer {
+    color: #404040;
+    background: blue;
+}body {
+}

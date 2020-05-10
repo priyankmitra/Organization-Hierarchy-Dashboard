@@ -123,7 +123,7 @@ export class Home extends Component {
         for (i = 0; i < (this.state.stateOptions.series[0]).nodes.length; i++) {
             if (((this.state.stateOptions.series[0].nodes[i]).name).toLowerCase().includes(query) && (query !== "")) {
                 
-                (this.state.stateOptions.series[0].nodes[i]).borderWidth = 8;
+                (this.state.stateOptions.series[0].nodes[i]).borderWidth = "10";
                 (this.state.stateOptions.series[0].nodes[i]).borderColor = "red";
             }
             else if ((this.state.stateOptions.series[0].nodes[i]).employeeUsername === this.props.username) {
@@ -220,7 +220,7 @@ export class Home extends Component {
         var singleRelation = [];
         var username = this.props.username;
         var chartType = this.props.chartType;
-        const responseForregisteredUserInformation = await fetch('api/registeredUserInformation');
+        const responseForregisteredUserInformation = await fetch('api/registeredUserInformation?value=0');
         const data = await responseForregisteredUserInformation.json();
 
 

@@ -7,6 +7,7 @@ import EditFormModal from './components/EditFormModal';
 import { Input, Menu, Dropdown, Search, Button, Image, Modal, Card, Popup, Icon} from 'semantic-ui-react'
 import logo from './components/logo.png';
 import './custom.css'
+import equal from 'fast-deep-equal'
 
 export default class App extends Component {
   static displayName = App.name;
@@ -28,7 +29,7 @@ export default class App extends Component {
             Office: "",
             popupOpen: false,
             chartType: "IT",
-            updateCart:1
+            updateChart:1
         }
         this.searchChange = this.searchChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -61,6 +62,7 @@ export default class App extends Component {
     componentDidMount() {
         this.populateUsernaameData();
     }
+   
 
     searchChange(event, { value }) {
             this.setState({ searchedValue: value  })
@@ -93,7 +95,28 @@ export default class App extends Component {
             return (
                 <div>
                     <Menu inverted>
-                        <Menu.Item header position='left'><img src={logo} />Organization Hierarchy</Menu.Item>
+                        <Menu.Item header position='left'><img src={logo} /><Popup
+                            content={
+                                <Card>
+                                    <Card.Content>
+                                        <Image
+                                            floated='left'
+                                            size='medium'
+                                            src={logo}
+                                        />
+                                    </Card.Content>
+                                </Card>
+
+                            }
+                            hoverable={true}
+                            pinned
+                            basic
+                            position='bottom right'
+                            eventsEnabled={true}
+                            trigger={<img class="ui mini circular image" src={logo} />}
+
+                        />Organization Hierarchy</Menu.Item>
+                        
                         <Menu.Item position='middle'>
                             <Dropdown item text='Chart'>
                                 <Dropdown.Menu>
@@ -158,8 +181,14 @@ export default class App extends Component {
                                 handleClose={
                                     () => {
                                         this.setState({
-                                            showEditForm: false,
-                                            updateChart: ((this.state.updateCart+1)%10)
+                                            showEditForm: false
+                                        })
+                                    }
+                                }
+                                handleUpdate={
+                                    () => {
+                                        this.setState({
+                                            updateChart: ((this.state.updateChart + 1) % 10)
                                         })
                                     }
                                 }
@@ -205,3 +234,6 @@ export default class App extends Component {
 
     }
 }
+
+
+

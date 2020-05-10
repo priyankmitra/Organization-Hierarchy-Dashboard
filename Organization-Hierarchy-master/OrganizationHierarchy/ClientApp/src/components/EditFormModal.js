@@ -74,7 +74,7 @@ class EditFormModal extends Component {
     }
 
     closeForm() {
-        /*this.props.populateDataAfterUpdate();*/
+        this.props.handleUpdate();
         this.props.handleClose();
     }
 

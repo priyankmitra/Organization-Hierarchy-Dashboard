@@ -1,8 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { Form, Input, Segment, Button, Grid, Icon, Divider } from 'semantic-ui-react';
 import { Home } from './Home';
-
-/*import { App} from '../App'*/
+import "./RegistrationForm.css";
+import  App from '../App.js'
 
 import user from './user.png';
 export class RegistrationForm extends Component {
@@ -32,7 +32,8 @@ export class RegistrationForm extends Component {
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
-        //console.log(this.state.Profilepic);
+
+       console.log([event.target.name]);
     }
     handleImage(event) {
         this.setState({ Profilepic: event.target.value });
@@ -65,7 +66,8 @@ export class RegistrationForm extends Component {
         console.log(55);
         //console.log(this.state.Profilepic);
         //data.append("Profilepic", this.state.Profilepic);
-        console.log(data.get('Profilepic'));
+        console.log(event.target    );
+        console.log(data.get('DepartmentName'));
         fetch('api/registerUser', {
             method: 'POST',
             body: data
@@ -81,35 +83,53 @@ export class RegistrationForm extends Component {
 
     }
     render() {
-        return this.state.showChart ? <Home isUserRegistered={1} /> :
-            <div class="ui placeholder segment">
-                <div class="ui grid">
-                    <div class="ten wide column" >
-                        <Segment style={{ overflow: "auto", height: "65%", }}>
-                            <div /*style={{ marginLeft: 400, marginRight: 400, marginTop: 20 }}*/>
+        return this.state.showChart ? <App /> :
+            <div className="zer">
+                <Segment raised style={{ marginLeft: "300px", marginRight: "300px", marginTop: "-20px", marginBottom: "0px", padding: "0px" }}>
+                    <div className="zero">
+                        <div class="ui grid" style={{ padding: "15px" }}>
+                            <div class="eight wide column" >
 
-                                <h2 class="ui center aligned black header" >Registration Form</h2>
-                                <div class="ui raised segment" color='black' style={{ marginLeft: "100px", marginRight: "100px" }}>
-                                    <Form onSubmit={this.handleSubmit}  >
-                                        <Form.Field fluid>
-                                            <label>Employee Id</label>
-                                            <Input disabled type='id' name='EmployeeId' placeholder='Employee Id' defaultValue={this.state.EmployeeId} onChange={this.handleChange} />
-                                        </Form.Field>
-                                        <Form.Field fluid>
-                                            <label>Employee Display Name</label>
-                                            <Input disabled type='displayname' name='DisplayName' placeholder='Display Name' defaultValue={this.state.DisplayName} onChange={this.handleChange} />
-                                        </Form.Field>
-                                        <Form.Field fluid>
-                                            <label>Employee Username</label>
-                                            <Input disabled type='name' name='EmployeeUsername' placeholder='Username' defaultValue={this.state.EmployeeUsername} onChange={this.handleChange} />
-                                        </Form.Field>
 
-                                        <Form.Field fluid>
-                                            <label>Email</label>
-                                            <Input disabled type='email' name='Email' placeholder='example@gmail.com' defaultValue={this.state.Email} onChange={this.handleChange} />
-                                        </Form.Field>
+                                <div style={{ display: "flex", marginLeft: "70px", marginRight: "2px", marginTop: "220px" }}>
+                                    <div>
+                                        {this.state.imgsrc !== null ?
+                                            (
+                                                <div>
+                                                    {console.log(235)}
+                                                    <img src={this.state.imgsrc} height="200" width="250" />
+                                                </div>) :
+                                            <img src={user} height="230" width="250" />
 
-                                        <Form.Field fluid required label='Designation' name='Designation' focus defaultValue={this.state.Designation} control='select' onChange={this.handleChange} >
+                                        }
+                                    </div>
+                                </div>
+                                <h2 class="ui center aligned black header" style={{ marginTop: "0px" }}> User Name</h2>
+                            </div>
+                            <div class="eight wide column">
+                                <h2 style={{ color: "white", textAlign: "center", fontFamily: "Century Gothic" }}>Registration Form</h2>
+                                <Form onSubmit={this.handleSubmit}  >
+                                    <Form.Field fluid>
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Employee Id</label>
+                                        <Input disabled type='id' name='EmployeeId' placeholder='Employee Id' defaultValue={this.state.EmployeeId} onChange={this.handleChange} />
+                                    </Form.Field>
+                                    <Form.Field fluid>
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Employee Display Name</label>
+                                        <Input disabled type='displayname' name='DisplayName' placeholder='Display Name' defaultValue={this.state.DisplayName} onChange={this.handleChange} />
+                                    </Form.Field>
+                                    <Form.Field fluid>
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Employee Username</label>
+                                        <Input disabled type='name' name='EmployeeUsername' placeholder='Username' defaultValue={this.state.EmployeeUsername} onChange={this.handleChange} />
+                                    </Form.Field>
+
+                                    <Form.Field fluid focus>
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Email</label>
+                                        <Input disabled type='email' name='Email' placeholder='example@gmail.com' focus defaultValue={this.state.Email} onChange={this.handleChange} />
+                                    </Form.Field>
+
+                                    <Form.Field fluid name='Designation' focus defaultValue={this.state.Designation} >
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Designation</label>
+                                        <select name='Designation'  class="ui search dropdown" onChange={this.handleChange}>
                                             <option value={this.state.Designation}>{this.state.Designation}</option>
                                             <option value='VP'>VP</option>
                                             <option value='AVP'>AVP</option>
@@ -120,71 +140,61 @@ export class RegistrationForm extends Component {
                                             <option value='Software Engineer'>Software Engineer </option>
                                             <option value='Trainee Software Engineer'>Trainee Software Engineer </option>
                                             <option value='Intern'>Intern</option>
-                                        </Form.Field>
+                                        </select>
+                                    </Form.Field>
 
 
-                                        <Form.Field fluid required label='Department' name='DepartmentName' focus defaultValue={this.state.DepartmentName} control='select' onChange={this.handleChange}>
+                                    <Form.Field fluid name='DepartmentName' focus defaultValue={this.state.DepartmentName} >
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Department</label>
+                                        <select name='DepartmentName' class="ui search dropdown" onChange={this.handleChange}>
                                             <option value={this.state.DepartmentName}>{this.state.DepartmentName}</option>
                                             <option value='IT'>IT</option>
                                             <option value='Accounts'>Accounts</option>
-                                        </Form.Field>
+                                        </select>
+                                    </Form.Field>
 
-                                        <Form.Field fluid label='Reporting Manager' name='ReportingManagerUserName' focus control='select' required onChange={this.handleChange}>
+                                    <Form.Field fluid name='ReportingManagerUserName' focus required >
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Reporting Manager</label>
+                                        <select name='ReportingManagerUserName' class="ui search dropdown" onChange={this.handleChange}>
                                             <option value=''>Select Reporting Manager</option>
                                             {this.state.RmList.map(rm =>
 
                                                 <option key={rm.employeeId} value={rm.employeeUsername}>{rm.displayName}({rm.employeeUsername})</option>
 
                                             )}
-                                        </Form.Field>
+                                        </select>
+                                    </Form.Field>
 
-                                        <Form.Field fluid>
-                                        <label>Profile Picture</label>
-                                            <Input type='file' name='Profilepic' icon={<Icon name='user' inverted circular link />} focus onChange={this.handleImage} />
-                                        </Form.Field>
+                                    <Form.Field fluid>
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Profile Picture</label>
+                                        <Input type='file' name='Profilepic' icon={<Icon name='user' inverted circular link />} focus onChange={this.handleImage} />
+                                    </Form.Field>
 
 
-                                        <Form.Field fluid required label='Office' control='select' focus name='Office' defaultValue={this.state.Office} onChange={this.handleChange}  >
+                                    <Form.Field fluid focus name='Office' defaultValue={this.state.Office}  >
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Office</label>
+                                        <select name='Office' class="ui search dropdown" onChange={this.handleChange}>
                                             <option value={this.state.Office}> {this.state.Office}</option>
                                             <option value='Backoffice Center-1'>Backoffice Center-1</option>
                                             <option value='Backoffice Center-2'>Backoffice Center-2</option>
                                             <option value='Backoffice Center-3'>Backoffice Center-3</option>
                                             <option value='Corporate headquarters'>Corporate headquarters</option>
-                                        </Form.Field>
-
-
-                                        <Grid>
-                                            <Grid.Column textAlign="center">
-                                                <Form.Field>
-                                                    <Button fluid type="submit" color='blue'>Add Me</Button>
-                                                </Form.Field>
-                                            </Grid.Column>
-                                        </Grid>
-                                    </Form>
-                                </div>
+                                        </select>
+                                    </Form.Field>
+                                    
+                                    <Grid>
+                                        <Grid.Column textAlign="center">
+                                            <Form.Field>
+                                                <Button type="submit" color='white'>Submit</Button>
+                                            </Form.Field>
+                                        </Grid.Column>
+                                    </Grid>
+                                </Form>
                             </div>
-                        </Segment>
-                    </div>
-                    <div class="ui basic center aligned segment">
-                        <h2 class="ui center aligned black header" > Profile Picture</h2>
-                        <div style={{ display: "flex", marginLeft: "3px", marginRight: "2px" }}>
-                            <div>
-                                {this.state.imgsrc !== null ?
-                                    (
-                                        <div>
-                                            {console.log(235)}
-                                            <img src={this.state.imgsrc} height="200" width="250" />
-                                        </div>) : 
-                                    <img src={user} height="200" width="250" />
-                                        
-                                    }
-
-                           
                         </div>
                     </div>
-                </div>
-                </div>
-                </div>
+                </Segment>
+            </div>
     }
 
     async setAdData() {

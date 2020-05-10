@@ -22,8 +22,14 @@ namespace OrganizationHierarchy.Controllers
 
         OrganizationHierarchyContext context = new OrganizationHierarchyContext();
 
+        [HttpGet("registeredUserInformation")]        public IEnumerable<UserInformation> Getuser(int value)        {            List<RegisteredUsers> data = new List<RegisteredUsers>();            if (value == 1)            {
+                data = this.SetDefaultdata();            }            else { data = this.Setdata(); }            string profilepicPath = null;            List<UserInformation> result = new List<UserInformation>();            foreach (var item in data)            {                OrganizationHierarchyContext db = new OrganizationHierarchyContext();                string imreBase64Data = Convert.ToBase64String(item.Profilepic);                profilepicPath = string.Format("data:image/png;base64,{0}", imreBase64Data);                Console.WriteLine(item);                UserInformation user = new UserInformation();                user.EmployeeId = item.EmployeeId;                user.DisplayName = item.DisplayName;                user.EmployeeUsername = item.EmployeeUsername;                user.Email = item.Email;                user.ProfilepicPath = profilepicPath;                user.ReportingManagerUsername = item.ReportingManagerUsername;                user.UserRegisteredOrNot = item.UserRegisteredOrNot;                user.DepartmentName = db.DepartmentInformation.Where(x => x.DepartmentId.Equals(item.DepartmentId)).FirstOrDefault().DepartmentName;  //item.Department.DepartmentName,
+                user.Designation = db.DesignationInformation.Where(x => x.DesignationId.Equals(item.DesignationId)).FirstOrDefault().Designation; //item.Designation.Designation,
+                user.Office = db.OfficeInformation.Where(x => x.OfficeId.Equals(item.OfficeId)).FirstOrDefault().OfficeName;//item.Office.OfficeName,
 
-        [HttpGet("registeredUserInformation")]
+
+                result.Add(user);                db.Dispose();            }            return result;        }
+        /*[HttpGet("registeredUserInformation")]
         public IEnumerable<UserInformation> Getuser()
         {
 
@@ -57,9 +63,9 @@ namespace OrganizationHierarchy.Controllers
             }
 
             return result;
-        }
+        }*/
 
-        
+
 
         [HttpGet("username")]
         public List<string> GetUserName()
@@ -69,7 +75,7 @@ namespace OrganizationHierarchy.Controllers
 
             char[] separator = { '\\' };
             username.Add((machineName.Split(separator, 2, StringSplitOptions.None))[1]);
-           // username.Add("navg");
+            // username.Add("navg");
             return username;
         }
 
@@ -148,7 +154,7 @@ namespace OrganizationHierarchy.Controllers
             {
                 registeruser.Profilepic = context.defaultImage.FirstOrDefault().image;
             }
-            
+
 
             registeruser.EmployeeId = user.EmployeeId;
             registeruser.DisplayName = user.DisplayName;
@@ -205,5 +211,16 @@ namespace OrganizationHierarchy.Controllers
             return rm_data;
         }
 
-    }
-}
+        public List<RegisteredUsers> SetDefaultdata()        {            List<RegisteredUsers> result = new List<RegisteredUsers>();            List<RegisteredUsers> current = new List<RegisteredUsers>();            List<RegisteredUsers> next = new List<RegisteredUsers>();            OrganizationHierarchyContext db = new OrganizationHierarchyContext();            var username = GetUserName();            var root = db.RegisteredUsers.Where(x => x.EmployeeUsername.Contains("sudhag")).FirstOrDefault();            var root2 = db.RegisteredUsers.Where(x => x.EmployeeUsername.Contains("navg")).FirstOrDefault();            current.Add(root);            current.Add(root2);            var IsNextNull = false;            while (!IsNextNull)
+            {                next = new List<RegisteredUsers>();                foreach (var item in current)                {                    if (item.EmployeeUsername == username[0])                    {                        IsNextNull = true;                        break;                    }                    foreach (var item2 in db.RegisteredUsers)                    {
+
+                        if (item2.ReportingManagerUsername == item.EmployeeUsername)                        {
+
+                            next.Add(item2);                        }                    }
+
+                }
+
+
+                if (next.Count == 0)                {                    IsNextNull = true;                }                foreach (var item4 in current)                {                    result.Add(item4);                }                current = new List<RegisteredUsers>();                foreach (var item3 in next)                {                    current.Add(item3);                }            }
+
+            result.Add(db.RegisteredUsers.Where(x => x.EmployeeUsername.Contains(username[0])).FirstOrDefault());            var mychildren = db.RegisteredUsers.Where(x => x.ReportingManagerUsername.Contains(username[0])).ToList();            foreach (var i in mychildren)            {                result.Add(i);            }            return result;        }         public List<RegisteredUsers> Setdata()        {            List<RegisteredUsers> result = new List<RegisteredUsers>();            List<RegisteredUsers> current = new List<RegisteredUsers>();            List<RegisteredUsers> next = new List<RegisteredUsers>();            OrganizationHierarchyContext db = new OrganizationHierarchyContext();            var root = db.RegisteredUsers.Where(x => x.EmployeeUsername.Contains("sudhag")).FirstOrDefault();            var root2 = db.RegisteredUsers.Where(x => x.EmployeeUsername.Contains("navg")).FirstOrDefault();            current.Add(root);            current.Add(root2);            var IsNextNull = false;            while (!IsNextNull)            {                next = new List<RegisteredUsers>();                foreach (var item in current)                {                    foreach (var item2 in db.RegisteredUsers)                    {                        if (item2.ReportingManagerUsername == item.EmployeeUsername)                        {                            next.Add(item2);                        }                    }                }                if (next.Count == 0)                {                    IsNextNull = true;                }                foreach (var item4 in current)                {                    result.Add(item4);                }                current = new List<RegisteredUsers>();                foreach (var item3 in next)                {                    current.Add(item3);                }            }            return result;        }    }}
