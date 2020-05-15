@@ -103,7 +103,7 @@
 }
 
 .highcharts-background {
-    fill: #2a2a2b;
+    fill: #041706;
 }
 
 .highcharts-plot-border, .highcharts-plot-background {
@@ -886,7 +886,7 @@ input.highcharts-range-selector {
 }
 
 .highcharts-null-point {
-    fill: #2a2a2b;
+    fill: #041706;
 }
 
 /* 3d charts */

@@ -53,7 +53,7 @@ values
 (9,'Software Engineer'),
 (10,'Trainee Software Engineer'),
 (11,'Intern');
-
+insert into DesignationInformation values(12, 'Account Person')
 select * from DesignationInformation;
 
 insert into RegisteredUsers (EmployeeId,EmployeeUsername,DisplayName,Email,UserRegisteredOrNot,DepartmentId,
@@ -71,14 +71,26 @@ values (10, 'akasht','Akash Tanwar', 'akasht@navbackoffice.com',1,1,11,'anilkm',
 
 
 insert into RegisteredUsers (EmployeeId,EmployeeUsername,DisplayName,Email,UserRegisteredOrNot,DepartmentId,DesignationId,ReportingManagerUsername,OfficeId)
-values (8, 'sajalg','Akash Tanwar', 'akasht@navbackoffice.com',1,1,11,'mukeshs',1)
+values (11, 'ayushg','Ayush Goyal', 'sajalg@navbackoffice.com',1,1,11,'PRIYANK MITRA',1)
+
+insert into RegisteredUsers (EmployeeId,EmployeeUsername,DisplayName,Email,UserRegisteredOrNot,DepartmentId,DesignationId,ReportingManagerUsername,OfficeId)
+values (14, 'honeys','Honey Singhal', 'sajalg@navbackoffice.com',1,1,11,'PRIYANK MITRA',1)
+
+insert into RegisteredUsers (EmployeeId,EmployeeUsername,DisplayName,Email,UserRegisteredOrNot,DepartmentId,DesignationId,ReportingManagerUsername,OfficeId)
+values  (16, 'prayagd','Prayag Donariya', 'prayagd@navbackoffice.com',1,1,11,'honeys',1)
+
+
+
+
+(13, 'chirags','Chirag Sharma', 'chirags@navbackoffice.com',1,1,11,'mukeshs',1)
+
 
 select * from RegisteredUsers;
 
 delete from RegisteredUsers where EmployeeUsername = 'Priyank Mitra';
 delete from RegisteredUsers where EmployeeUsername = 'tusharb';
 delete from RegisteredUsers where EmployeeUsername = 'akasht';
-delete from RegisteredUsers where EmployeeUsername = 'virats';
+delete from RegisteredUsers where EmployeeUsername = 'suyashp';
 
 
 drop table DesignationInformation
@@ -92,6 +104,16 @@ EmployeeUsername varchar (50), Department varchar (50), Designation varchar(50),
 
 insert into TempAd
 values
+(19,'Nitin Chauhan','nitinc@navbackoffice.com','nitinc','Accounts','Account Person','Backoffice Center-1','Sitapura,Jaipur'),
+(20,'Kushal Sharma','kushals@navbackoffice.com','kushals','Accounts','Account Person','Backoffice Center-1','Sitapura,Jaipur'),
+(21,'Virat Singh','viratsi@navbackoffice.com','viratsi','Accounts','Account Person','Backoffice Center-1','Sitapura,Jaipur'),
+(22,'Shubham Kumar','shubhamk@navbackoffice.com','shubhamk','Accounts','Account Person','Backoffice Center-1','Sitapura,Jaipur'),
+(23,'Payal Goshwami','payalg@navbackoffice.com','payalg','Accounts','Account Person','Backoffice Center-1','Sitapura,Jaipur'),
+(24,'Sarthak Saxena','sarthaks@navbackoffice.com','sarthaks','Accounts','Account Person','Backoffice Center-1','Sitapura,Jaipur'),
+(25,'Kartik Gupta','kartikg@navbackoffice.com','kartikg','Accounts','Account Person','Backoffice Center-1','Sitapura,Jaipur'),
+(26,'Chinmay Kapoor','chinmayk@navbackoffice.com','chinmayk','Accounts','Account Person','Backoffice Center-1','Sitapura,Jaipur'),
+(27,'Srishti Thakur','srishtit@navbackoffice.com','srishtit','Accounts','Account Person','Backoffice Center-1','Sitapura,Jaipur');
+
 
 (1,'Sudha Gupta', 'sudhag@navbackoffice.com','sudhag','IT','CTO','Coorporate Headquarters','Oakbrook Terrace,IL'),
 (2,'Nav Gupta', 'navg@navbackoffice.com','navg','Accounts','CEO','Coorporate Headquarters','Oakbrook Terrace,IL'),
@@ -112,8 +134,19 @@ values
 (17,'Yash Kumar','yashk@navbackoffice.com','yashk','IT','null','Backoffice Center-1','Sitapura,Jaipur'),
 (18,'Virat Singh','virats@navbackoffice.com','virats','IT','Project Manager','Backoffice Center-1','Sitapura,Jaipur');
 
-delete from TempAd where EmployeeId = 8;
-insert into TempAd values (8,'Priyank Mitra','priyankm@navbackoffice.com','PRIYANK MITRA','IT');
+delete from TempAd where EmployeeId = 21;
+insert into TempAd values (21,'Virat Singh','viratsi@navbackoffice.com','viratsi','Accounts','Account Person','Backoffice Center-1','Sitapura,Jaipur');
 
 
 select * from TempAd;
+
+insert into RegisteredUsers (EmployeeId,EmployeeUsername,DisplayName,Email,UserRegisteredOrNot,DepartmentId,DesignationId,ReportingManagerUsername,OfficeId)
+values (19, 'nitinc','Nitin Chauhan', 'nitinc@navbackoffice.com',1,2,12,'navg',1),
+(20, 'kushals','Kushal Sharma', 'kushals@navbackoffice.com',1,2,12,'navg',1),
+(21, 'viratsi','Virat Singh', 'virats@navbackoffice.com',1,2,12,'navg',1),
+(22, 'shubhamk','Shubham Kumar', 'shubhamk@navbackoffice.com',1,2,12,'kushals',1),
+(23, 'payalg','Payal Goshwami', 'payalg@navbackoffice.com',1,2,12,'kushals',1),
+(24, 'sarthaks','Sarthak Saxena', 'sarthaks@navbackoffice.com',1,2,12,'viratsi',1),
+(25, 'kartikg','Kartik Gupta', 'kartikg@navbackoffice.com',1,2,12,'viratsi',1),
+(26, 'chinmayk','Chinmay Kapoor', 'chinmayk@navbackoffice.com',1,2,12,'payalg',1),
+(27, 'srishtit','Srishti Thakur', 'srishtit@navbackoffice.com',1,2,12,'payalg',1);

@@ -2,7 +2,7 @@
 import { Form, Input, Segment, Button, Grid, Icon, Divider } from 'semantic-ui-react';
 import { Home } from './Home';
 import "./RegistrationForm.css";
-import  App from '../App.js'
+import App from '../App.js'
 
 import user from './user.png';
 export class RegistrationForm extends Component {
@@ -33,17 +33,17 @@ export class RegistrationForm extends Component {
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
 
-       console.log([event.target.name]);
+        console.log([event.target.name]);
     }
     handleImage(event) {
         this.setState({ Profilepic: event.target.value });
         console.log(53);
         console.log(this.state);
-        
+
         const currentfile = event.target.files[0]
         const filereader = new FileReader()
         filereader.addEventListener("load", () => {
-            
+
             this.setState({
                 imgsrc: filereader.result
             })
@@ -53,8 +53,8 @@ export class RegistrationForm extends Component {
 
 
         /* this.setState({ imagePath: event.target.value })*/
-    }   
-   
+    }
+
     handleSubmit(event) {
         event.preventDefault();
 
@@ -66,7 +66,7 @@ export class RegistrationForm extends Component {
         console.log(55);
         //console.log(this.state.Profilepic);
         //data.append("Profilepic", this.state.Profilepic);
-        console.log(event.target    );
+        console.log(event.target);
         console.log(data.get('DepartmentName'));
         fetch('api/registerUser', {
             method: 'POST',
@@ -83,7 +83,7 @@ export class RegistrationForm extends Component {
 
     }
     render() {
-        return this.state.showChart ? <App /> :
+        return this.state.showChart ? <Home /> :
             <div className="zer">
                 <Segment raised style={{ marginLeft: "300px", marginRight: "300px", marginTop: "-20px", marginBottom: "0px", padding: "0px" }}>
                     <div className="zero">
@@ -104,32 +104,32 @@ export class RegistrationForm extends Component {
                                         }
                                     </div>
                                 </div>
-                                <h2 class="ui center aligned black header" style={{ marginTop: "0px" }}> User Name</h2>
+                                <h2 class="ui center aligned black header" style={{ color: "white", textAlign: "center", fontFamily: "Century Gothic",marginTop: "0px",marginLeft:"55px" }}> {this.state.DisplayName}</h2>
                             </div>
                             <div class="eight wide column">
-                                <h2 style={{ color: "white", textAlign: "center", fontFamily: "Century Gothic" }}>Registration Form</h2>
+                                <h2 style={{ color: "white", textAlign: "center", fontFamily: "Century Gothic" }}>REGISTRATION</h2>
                                 <Form onSubmit={this.handleSubmit}  >
                                     <Form.Field fluid>
-                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Employee Id</label>
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>EMPLOYEE ID</label>
                                         <Input disabled type='id' name='EmployeeId' placeholder='Employee Id' defaultValue={this.state.EmployeeId} onChange={this.handleChange} />
                                     </Form.Field>
                                     <Form.Field fluid>
-                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Employee Display Name</label>
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>DISPLAY NAME</label>
                                         <Input disabled type='displayname' name='DisplayName' placeholder='Display Name' defaultValue={this.state.DisplayName} onChange={this.handleChange} />
                                     </Form.Field>
-                                    <Form.Field fluid>
-                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Employee Username</label>
+                                    <Form.Field fluid >
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>USERNAME</label>
                                         <Input disabled type='name' name='EmployeeUsername' placeholder='Username' defaultValue={this.state.EmployeeUsername} onChange={this.handleChange} />
                                     </Form.Field>
 
-                                    <Form.Field fluid focus>
-                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Email</label>
+                                    <Form.Field fluid focus >
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>EMAIL</label>
                                         <Input disabled type='email' name='Email' placeholder='example@gmail.com' focus defaultValue={this.state.Email} onChange={this.handleChange} />
                                     </Form.Field>
 
-                                    <Form.Field fluid name='Designation' focus defaultValue={this.state.Designation} >
-                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Designation</label>
-                                        <select name='Designation'  class="ui search dropdown" onChange={this.handleChange}>
+                                    <Form.Field fluid name='Designation' focus defaultValue={this.state.Designation} required>
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>DESIGNATION</label>
+                                        <select name='Designation' class="ui search dropdown" onChange={this.handleChange}>
                                             <option value={this.state.Designation}>{this.state.Designation}</option>
                                             <option value='VP'>VP</option>
                                             <option value='AVP'>AVP</option>
@@ -144,8 +144,8 @@ export class RegistrationForm extends Component {
                                     </Form.Field>
 
 
-                                    <Form.Field fluid name='DepartmentName' focus defaultValue={this.state.DepartmentName} >
-                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Department</label>
+                                    <Form.Field fluid name='DepartmentName' focus defaultValue={this.state.DepartmentName} required>
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>DEPARTMENT</label>
                                         <select name='DepartmentName' class="ui search dropdown" onChange={this.handleChange}>
                                             <option value={this.state.DepartmentName}>{this.state.DepartmentName}</option>
                                             <option value='IT'>IT</option>
@@ -154,7 +154,7 @@ export class RegistrationForm extends Component {
                                     </Form.Field>
 
                                     <Form.Field fluid name='ReportingManagerUserName' focus required >
-                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Reporting Manager</label>
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>REPORTING MANAGER</label>
                                         <select name='ReportingManagerUserName' class="ui search dropdown" onChange={this.handleChange}>
                                             <option value=''>Select Reporting Manager</option>
                                             {this.state.RmList.map(rm =>
@@ -165,14 +165,14 @@ export class RegistrationForm extends Component {
                                         </select>
                                     </Form.Field>
 
-                                    <Form.Field fluid>
-                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Profile Picture</label>
+                                    <Form.Field fluid >
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>PROFILE PICTURE</label>
                                         <Input type='file' name='Profilepic' icon={<Icon name='user' inverted circular link />} focus onChange={this.handleImage} />
                                     </Form.Field>
 
 
-                                    <Form.Field fluid focus name='Office' defaultValue={this.state.Office}  >
-                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>Office</label>
+                                    <Form.Field fluid focus name='Office' defaultValue={this.state.Office} required >
+                                        <label style={{ color: "white", fontFamily: "Century Gothic" }}>OFFICE</label>
                                         <select name='Office' class="ui search dropdown" onChange={this.handleChange}>
                                             <option value={this.state.Office}> {this.state.Office}</option>
                                             <option value='Backoffice Center-1'>Backoffice Center-1</option>
@@ -181,11 +181,11 @@ export class RegistrationForm extends Component {
                                             <option value='Corporate headquarters'>Corporate headquarters</option>
                                         </select>
                                     </Form.Field>
-                                    
+
                                     <Grid>
                                         <Grid.Column textAlign="center">
                                             <Form.Field>
-                                                <Button type="submit" color='white'>Submit</Button>
+                                                <Button type="submit" color='white'>ADD ME</Button>
                                             </Form.Field>
                                         </Grid.Column>
                                     </Grid>
@@ -220,3 +220,4 @@ export class RegistrationForm extends Component {
         });
     }
 }
+

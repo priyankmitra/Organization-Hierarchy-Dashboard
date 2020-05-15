@@ -12,7 +12,7 @@ let searchedOptions = {
 const constOptions = {
 
     chart: {
-        height: 600,
+        height: 950,
         inverted: true
     },
 
@@ -60,13 +60,14 @@ const constOptions = {
     }],
     tooltip:
     {
-        outside: true
+        outside: false, 
+        Animation:false
     },
     exporting:
     {
         allowHTML: true,
         sourceWidth: 1200,
-        sourceHeight: 1200
+        sourceHeight: 1300
     }
 
 }
@@ -123,11 +124,11 @@ export class Home extends Component {
         for (i = 0; i < (this.state.stateOptions.series[0]).nodes.length; i++) {
             if (((this.state.stateOptions.series[0].nodes[i]).name).toLowerCase().includes(query) && (query !== "")) {
                 
-                (this.state.stateOptions.series[0].nodes[i]).borderWidth = "10";
+                (this.state.stateOptions.series[0].nodes[i]).color = "#935718"; 
                 (this.state.stateOptions.series[0].nodes[i]).borderColor = "red";
             }
             else if ((this.state.stateOptions.series[0].nodes[i]).employeeUsername === this.props.username) {
-                (this.state.stateOptions.series[0].nodes[i]).color = "#45dfb1";
+                (this.state.stateOptions.series[0].nodes[i]).color = "#13c878";
                 (this.state.stateOptions.series[0].nodes[i]).borderColor = "white";
             }
             else if ((this.state.stateOptions.series[0].nodes[i]).userRegisteredOrNot === 0) {
@@ -135,7 +136,7 @@ export class Home extends Component {
                 (this.state.stateOptions.series[0].nodes[i]).borderColor = "white";
             }
             else {
-                (this.state.stateOptions.series[0].nodes[i]).color = "#0bc5e3";
+                (this.state.stateOptions.series[0].nodes[i]).color = "#0dab97";
                 (this.state.stateOptions.series[0].nodes[i]).borderColor = "white";
             }
         }
@@ -163,7 +164,7 @@ export class Home extends Component {
             {
                 this.setSearchOptions();
                 return (
-                    <div style={{ backgroundColor: 'grey' }}>
+                    <div style={{ backgroundColor: '#041706' }}>
                             <DisplayChart stateOptions={this.state.stateOptions} />
                             <PostCardModal
                                 modalOpen={this.state.showPopup}
@@ -191,7 +192,7 @@ export class Home extends Component {
                 this.setSearchOptions();
                 return (
                   
-                    <div style={{ backgroundColor: 'grey' }} >
+                    <div style={{ backgroundColor: '#041706' }} >
                         <DisplayChart stateOptions={this.state.stateOptions} />
                         <PostCardModal
                             modalOpen={this.state.showPopup}
@@ -220,62 +221,172 @@ export class Home extends Component {
         var singleRelation = [];
         var username = this.props.username;
         var chartType = this.props.chartType;
-        const responseForregisteredUserInformation = await fetch('api/registeredUserInformation?value=0');
+        var url = "";
+
+        if (chartType === 'Default') {
+            url = "api/registeredUserInformation?value=1";
+        }
+        else if (chartType === 'IT') {
+            url = "api/registeredUserInformation?value=0";
+        }
+        else if (chartType === 'Accounts') {
+            url = "api/registeredUserInformation?value=0";
+        }
+
+        const responseForregisteredUserInformation = await fetch(url);
         const data = await responseForregisteredUserInformation.json();
 
+        
 
         var i;
         for (i = 0; i < data.length; i++) {
-            if (data[i].departmentName === chartType)
-            {
-                singleRelation = [];
-                singleRelation.push(data[i].reportingManagerUsername);
-                var employeeUsername = data[i].employeeUsername;
-                singleRelation.push(employeeUsername);
-                relationTable.push(singleRelation);
+            if (chartType === "Default") {
+                if (data[i].departmentName === "IT" || data[i].userRegisteredOrNot === 0) {
+                    singleRelation = [];
+                    singleRelation.push(data[i].reportingManagerUsername);
+                    var employeeUsername = data[i].employeeUsername;
+                    singleRelation.push(employeeUsername);
+                    relationTable.push(singleRelation);
+                }
+            }
+            else if (chartType === "IT") {
+                if (data[i].departmentName === chartType || data[i].userRegisteredOrNot === 0) {
+                    singleRelation = [];
+                    singleRelation.push(data[i].reportingManagerUsername);
+                    var employeeUsername = data[i].employeeUsername;
+                    singleRelation.push(employeeUsername);
+                    relationTable.push(singleRelation);
+                }
+            }
+            else if (chartType === "Accounts") {
+                if (data[i].departmentName === chartType) {
+                    singleRelation = [];
+                    singleRelation.push(data[i].reportingManagerUsername);
+                    var employeeUsername = data[i].employeeUsername;
+                    singleRelation.push(employeeUsername);
+                    relationTable.push(singleRelation);
+                }
             }
         }
         var allUsers = [];
 
         
         for (i = 0; i < data.length; i++) {
-            if (data[i].departmentName === chartType)
-            {
-                var singleUser = {};
-                if (data[i].userRegisteredOrNot === 1) {
-                    singleUser.id = data[i].employeeUsername;
-                    singleUser.name = data[i].displayName;
-                    singleUser.title = data[i].designation;
-                    singleUser.description = data[i].departmentName;
-                    singleUser.email = data[i].email;
-                    singleUser.office = data[i].office;
-                    singleUser.image = data[i].profilepicPath;
-                    singleUser.reportingManager = data[i].reportingManagerUsername;
-                    singleUser.employeeUsername = data[i].employeeUsername;
-                    singleUser.userRegisteredOrNot = data[i].userRegisteredOrNot;
-                }
-                else {
-                    singleUser.id = data[i].employeeUsername;
-                    singleUser.name = data[i].employeeUsername;
-                    singleUser.employeeUsername = data[i].employeeUsername;
-                    singleUser.userRegisteredOrNot = data[i].userRegisteredOrNot;
-                    singleUser.description = "User is not Registered!";
+            if (chartType === "Default") {
+                if (data[i].departmentName === "IT" || data[i].userRegisteredOrNot === 0) {
+                    var singleUser = {};
+                    if (data[i].userRegisteredOrNot === 1) {
+                        singleUser.id = data[i].employeeUsername;
+                        singleUser.name = data[i].displayName;
+                        singleUser.title = data[i].designation;
+                        singleUser.description = data[i].departmentName;
+                        singleUser.email = data[i].email;
+                        singleUser.office = data[i].office;
+                        singleUser.image = data[i].profilepicPath;
+                        singleUser.reportingManager = data[i].reportingManagerUsername;
+                        singleUser.employeeUsername = data[i].employeeUsername;
+                        singleUser.userRegisteredOrNot = data[i].userRegisteredOrNot;
+                    }
+                    else {
+                        singleUser.id = data[i].employeeUsername;
+                        singleUser.name = data[i].employeeUsername;
+                        singleUser.employeeUsername = data[i].employeeUsername;
+                        singleUser.userRegisteredOrNot = data[i].userRegisteredOrNot;
+                        singleUser.description = "User is not Registered!";
 
-                }
+                    }
 
-                if (data[i].employeeUsername === username) {
-                    singleUser.color = "green";
+                    if (data[i].employeeUsername === username) {
+                        singleUser.color = "green";
+                    }
+                    else if (data[i].userRegisteredOrNot === 1) {
+                        singleUser.color = "#003399";
+                    }
+                    else {
+                        singleUser.color = "silver";
+                    }
+                    // singleUser.borderRadius = 25;
+
+                    allUsers.push(singleUser);
                 }
-                else if (data[i].userRegisteredOrNot === 1) {
-                    singleUser.color = "#003399";
-                }
-                else {
-                    singleUser.color = "silver";
-                }
-               // singleUser.borderRadius = 25;
-                
-                allUsers.push(singleUser);
             }
+            else if (chartType === "IT") {
+                if (data[i].departmentName === chartType || data[i].userRegisteredOrNot === 0) {
+                    var singleUser = {};
+                    if (data[i].userRegisteredOrNot === 1) {
+                        singleUser.id = data[i].employeeUsername;
+                        singleUser.name = data[i].displayName;
+                        singleUser.title = data[i].designation;
+                        singleUser.description = data[i].departmentName;
+                        singleUser.email = data[i].email;
+                        singleUser.office = data[i].office;
+                        singleUser.image = data[i].profilepicPath;
+                        singleUser.reportingManager = data[i].reportingManagerUsername;
+                        singleUser.employeeUsername = data[i].employeeUsername;
+                        singleUser.userRegisteredOrNot = data[i].userRegisteredOrNot;
+                    }
+                    else {
+                        singleUser.id = data[i].employeeUsername;
+                        singleUser.name = data[i].employeeUsername;
+                        singleUser.employeeUsername = data[i].employeeUsername;
+                        singleUser.userRegisteredOrNot = data[i].userRegisteredOrNot;
+                        singleUser.description = "User is not Registered!";
+
+                    }
+
+                    if (data[i].employeeUsername === username) {
+                        singleUser.color = "green";
+                    }
+                    else if (data[i].userRegisteredOrNot === 1) {
+                        singleUser.color = "#003399";
+                    }
+                    else {
+                        singleUser.color = "silver";
+                    }
+                    // singleUser.borderRadius = 25;
+
+                    allUsers.push(singleUser);
+                }
+            }
+            else if (chartType === "Accounts") {
+                if (data[i].departmentName === chartType) {
+                    var singleUser = {};
+                    if (data[i].userRegisteredOrNot === 1) {
+                        singleUser.id = data[i].employeeUsername;
+                        singleUser.name = data[i].displayName;
+                        singleUser.title = data[i].designation;
+                        singleUser.description = data[i].departmentName;
+                        singleUser.email = data[i].email;
+                        singleUser.office = data[i].office;
+                        singleUser.image = data[i].profilepicPath;
+                        singleUser.reportingManager = data[i].reportingManagerUsername;
+                        singleUser.employeeUsername = data[i].employeeUsername;
+                        singleUser.userRegisteredOrNot = data[i].userRegisteredOrNot;
+                    }
+                    else {
+                        singleUser.id = data[i].employeeUsername;
+                        singleUser.name = data[i].employeeUsername;
+                        singleUser.employeeUsername = data[i].employeeUsername;
+                        singleUser.userRegisteredOrNot = data[i].userRegisteredOrNot;
+                        singleUser.description = "User is not Registered!";
+
+                    }
+
+                    if (data[i].employeeUsername === username) {
+                        singleUser.color = "green";
+                    }
+                    else if (data[i].userRegisteredOrNot === 1) {
+                        singleUser.color = "#003399";
+                    }
+                    else {
+                        singleUser.color = "silver";
+                    }
+                    // singleUser.borderRadius = 25;
+
+                    allUsers.push(singleUser);
+                }
+            }
+           
         }
        
         constOptions.series[0].data = relationTable;

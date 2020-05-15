@@ -28,15 +28,18 @@ export default class App extends Component {
             Designation: "",
             Office: "",
             popupOpen: false,
-            chartType: "IT",
+            chartType: "Default",
             updateChart:1
         }
         this.searchChange = this.searchChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChart = this.handleChart.bind(this);
         this.closePopup = this.closePopup.bind(this);
+        this.call = this.call.bind(this);
     }
-
+    call() {
+        console.log("------------------------");
+    }
     handleChart(event, { value } ) {
         
         this.setState({chartType : value})
@@ -82,7 +85,28 @@ export default class App extends Component {
                     {/*<Layout username={this.state.username} isUserRegistered={this.state.isUserRegistered} />*/}
                     <Menu inverted>
                         <Menu.Item header position='left'>
-                            <img src={logo}/>
+                            <Popup
+                                content={
+                                    <Card>
+                                        <Card.Content>
+                                            <Image
+                                                floated='left'
+                                                size='tiny'
+                                                src={logo}
+                                            />
+                                            <h4>Organization Hierarchy</h4>
+                                        </Card.Content>
+                                    </Card>
+
+                                }
+                                hoverable={true}
+                                pinned
+                                basic
+                                position='bottom right'
+                                eventsEnabled={true}
+                                trigger={<img class="ui mini circular image" src={logo} />}
+
+                            />
                             Organization Hierarchy
                             </Menu.Item>
                         <Menu.Item header position='right'>{this.state.username}</Menu.Item>
@@ -95,15 +119,17 @@ export default class App extends Component {
             return (
                 <div>
                     <Menu inverted>
-                        <Menu.Item header position='left'><img src={logo} /><Popup
+                        <Menu.Item header position='left'>
+                            <Popup
                             content={
                                 <Card>
                                     <Card.Content>
                                         <Image
                                             floated='left'
-                                            size='medium'
+                                            size='tiny'
                                             src={logo}
-                                        />
+                                            />
+                                            <h4>Organization Hierarchy</h4>
                                     </Card.Content>
                                 </Card>
 
@@ -118,7 +144,7 @@ export default class App extends Component {
                         />Organization Hierarchy</Menu.Item>
                         
                         <Menu.Item position='middle'>
-                            <Dropdown item text='Chart'>
+                            <Dropdown item text='Department'>
                                 <Dropdown.Menu>
                                     <Dropdown.Item value= 'Default' onClick={this.handleChart}>Default</Dropdown.Item>
                                     <Dropdown.Item value='IT' onClick={this.handleChart}>IT</Dropdown.Item>

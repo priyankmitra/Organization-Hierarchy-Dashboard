@@ -20,9 +20,9 @@ export default class DisplayChart extends Component {
     render() {
         return (
             
-            <div style={{ backgroundColor: 'grey' }}>
+            <div style={{ backgroundColor: '#041706' }}>
                 <figure className="highcharts-figure">
-                    <div id="container">
+                    <div id="container" style={{marginTop : "-17px"}}>
                         <HighchartsReact highcharts={Highcharts} options={this.props.stateOptions} updateArgs={[true]} />
                     </div>
                 </figure>
